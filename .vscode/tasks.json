@@ -1,0 +1,142 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "make_cache_directory",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-E",
+        "make_directory",
+        "${workspaceFolder}/obj/vscode-cmake"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": true
+      },
+      "problemMatcher": [
+        "$msCompile",
+        "$gcc"
+      ]
+    },
+    {
+      "label": "generate",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "${workspaceFolder}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/obj/vscode-cmake"
+      },
+      "dependsOn": "make_cache_directory",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": true
+      },
+      "problemMatcher": [
+        "$msCompile",
+        "$gcc"
+      ]
+    },
+    {
+      "label": "build",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        "."
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/obj/vscode-cmake"
+      },
+      "group": "build",
+      "dependsOn": "generate",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": true
+      },
+      "problemMatcher": [
+        "$msCompile",
+        "$gcc"
+      ]
+    },
+    {
+      "label": "publish",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-DCMAKE_INSTALL_PREFIX=${workspaceFolder}/publish/vscode-cmake",
+        "-P",
+        "cmake_install.cmake"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/obj/vscode-cmake"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "dependsOn": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": true
+      },
+      "problemMatcher": [
+        "$msCompile",
+        "$gcc"
+      ]
+    },
+    {
+      "label": "test",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "--build",
+        ".",
+        "--target",
+        "test",
+        "--",
+        "ARGS=--extra-verbose"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/obj/vscode-cmake"
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "dependsOn": "build",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": true,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": true
+      },
+      "problemMatcher": [
+        "$msCompile",
+        "$gcc"
+      ]
+    }
+  ]
+}
