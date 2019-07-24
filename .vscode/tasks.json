@@ -137,6 +137,28 @@
         "$msCompile",
         "$gcc"
       ]
+    },
+    {
+      "label": "remove_cache_directory",
+      "type": "shell",
+      "command": "cmake",
+      "args": [
+        "-E",
+        "remove_directory",
+        "${workspaceFolder}/obj/vscode-cmake"
+      ],
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": true,
+        "clear": true
+      },
+      "problemMatcher": [
+        "$msCompile",
+        "$gcc"
+      ]
     }
   ]
 }
